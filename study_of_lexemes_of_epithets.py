@@ -1,7 +1,7 @@
 import pymorphy2
 
 MORPH = pymorphy2.MorphAnalyzer()
-LERMONTOVIZATION_EPITHETS = ['безумный', 'неземной', 'безумен', 'неотмирен']
+LERMONTOVIZATION_EPITHETS = ['безумный', 'неземной', 'неотмирен']
 
 
 def get_tags_tuple(form):
@@ -24,10 +24,8 @@ for epithet in LERMONTOVIZATION_EPITHETS:
     word_obj = MORPH.parse(epithet)[0]
     lexeme = word_obj.lexeme
 
-    # print('-' * 40)
     for form in lexeme:
-        # print(form.word)
-        # print(form.tag)
+
         epithets_forms_dict[epithet][form.tag] = form.word
 
 epithet_existing_forms = dict()
@@ -35,22 +33,32 @@ maximum_possible_forms = set()
 for tag_dict in epithets_forms_dict.values():
     maximum_possible_forms |= set(tag_dict.keys())
 
-# print(maximum_possible_forms)
 
-maximum_possible_forms_list = list(maximum_possible_forms)
-maximum_possible_forms_list.sort()
+maximum_possible_tags_list = list(maximum_possible_forms)
+maximum_possible_tags_list.sort()
 
-for form_tag in maximum_possible_forms_list:
+# To narrow table columns:
+# find maximum len of form tag
+tag_max_len = max(map(len, map(str, maximum_possible_tags_list)))
+
+# find maximum len of form of each epithet
+epithets_max_len = []
+for epithet in LERMONTOVIZATION_EPITHETS:
+    epithets_max_len.append(max([len(epithets_forms_dict[epithet].get(form_tag, '')) for form_tag in \
+                                 maximum_possible_tags_list]))
+
+for form_tag in maximum_possible_tags_list:
     epithets_form = [epithets_forms_dict[epithet].get(form_tag, '---') for epithet in LERMONTOVIZATION_EPITHETS]
-    form_tag_str = (40 - len(str(form_tag))) * ' ' + str(form_tag)
+    form_tag_str = (tag_max_len - len(str(form_tag))) * ' ' + str(form_tag)
     epithet_form_strs = []
-    for epithet_form in epithets_form:
-        epithet_form_str = (30 - len(epithet_form)) * ' ' + str(epithet_form)
+    for epithet_form, column_width in zip(epithets_form, epithets_max_len):
+        epithet_form_str = (column_width - len(epithet_form)) * ' ' + str(epithet_form)
         epithet_form_strs.append(epithet_form_str)
 
-    print(f'{form_tag_str} '
-          f'| {epithet_form_strs[0]} '
-          f'| {epithet_form_strs[1]} '
-          f'| {epithet_form_strs[2]} '
-          f'| {epithet_form_strs[3]} ')
+    print(' | '.join([form_tag_str] + epithet_form_strs))
 
+# из распечатываемой таблицы видно, что эпитеты "безумный" и "безумен" принимают одни и те же формы (морфируются друг в
+# друга, краткое прилагательное переходит в исходную форму, если существует). Поэтому "безумен"
+# как отдельный эпитет убираем.
+# Т.к. у прилагательного "неземной" краткой формы нет, был добавлен синонимичный эпитет "неотмирен", изначально
+# у Пригова его не было.
