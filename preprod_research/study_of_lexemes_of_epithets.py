@@ -1,4 +1,5 @@
 import pymorphy2
+from preprod_research import tag_id_dict as td
 
 MORPH = pymorphy2.MorphAnalyzer()
 LERMONTOVIZATION_EPITHETS = ['безумный', 'неземной', 'неотмирен']
@@ -17,6 +18,11 @@ def get_tags_tuple(form):
     return result
 
 
+def get_rus_str_from_tag_str(tag_str):
+    tag_list = tag_str.replace(',', ' ').split()
+    return ', '.join([td.id_to_rus[id] for id in tag_list])
+
+
 epithets_forms_dict = dict()
 
 for epithet in LERMONTOVIZATION_EPITHETS:
@@ -25,14 +31,12 @@ for epithet in LERMONTOVIZATION_EPITHETS:
     lexeme = word_obj.lexeme
 
     for form in lexeme:
-
         epithets_forms_dict[epithet][form.tag] = form.word
 
 epithet_existing_forms = dict()
 maximum_possible_forms = set()
 for tag_dict in epithets_forms_dict.values():
     maximum_possible_forms |= set(tag_dict.keys())
-
 
 maximum_possible_tags_list = list(maximum_possible_forms)
 maximum_possible_tags_list.sort()
@@ -55,7 +59,8 @@ for form_tag in maximum_possible_tags_list:
         epithet_form_str = (column_width - len(epithet_form)) * ' ' + str(epithet_form)
         epithet_form_strs.append(epithet_form_str)
 
-    print(' | '.join([form_tag_str] + epithet_form_strs))
+    rus_str = get_rus_str_from_tag_str(form_tag_str)
+    print(' | '.join([form_tag_str] + epithet_form_strs + [rus_str]))
 
 # из распечатываемой таблицы видно, что эпитеты "безумный" и "безумен" принимают одни и те же формы (морфируются друг в
 # друга, краткое прилагательное переходит в исходную форму, если существует). Поэтому "безумен"
