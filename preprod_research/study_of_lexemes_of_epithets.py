@@ -1,5 +1,5 @@
 import pymorphy2
-from preprod_research import tag_id_dict as td
+import tag_id_dict as td
 
 MORPH = pymorphy2.MorphAnalyzer()
 LERMONTOVIZATION_EPITHETS = ['безумный', 'неземной', 'неотмирен']
@@ -21,6 +21,19 @@ def get_tags_tuple(form):
 def get_rus_str_from_tag_str(tag_str):
     tag_list = tag_str.replace(',', ' ').split()
     return ', '.join([td.id_to_rus[id] for id in tag_list])
+
+
+def get_shape_and_not_meaningful_grammemes(tag_str):
+    tag_str = tag_str.replace(',', ' ')
+    grammemes = tag_str.split()
+    shape_grammemes = []
+    not_meaningful_grammemes = []
+    for gr in grammemes:
+        if gr in td.shape_ids.keys():
+            shape_grammemes.append(gr)
+        else:
+            not_meaningful_grammemes.append(gr)
+    return ', '.join(shape_grammemes), ', '.join(not_meaningful_grammemes)
 
 
 epithets_forms_dict = dict()
@@ -51,6 +64,8 @@ for epithet in LERMONTOVIZATION_EPITHETS:
     epithets_max_len.append(max([len(epithets_forms_dict[epithet].get(form_tag, '')) for form_tag in \
                                  maximum_possible_tags_list]))
 
+all_not_meaningfull_in_lexems = set()
+
 for form_tag in maximum_possible_tags_list:
     epithets_form = [epithets_forms_dict[epithet].get(form_tag, '---') for epithet in LERMONTOVIZATION_EPITHETS]
     form_tag_str = (tag_max_len - len(str(form_tag))) * ' ' + str(form_tag)
@@ -59,9 +74,16 @@ for form_tag in maximum_possible_tags_list:
         epithet_form_str = (column_width - len(epithet_form)) * ' ' + str(epithet_form)
         epithet_form_strs.append(epithet_form_str)
 
-    rus_str = get_rus_str_from_tag_str(form_tag_str)
-    print(' | '.join([form_tag_str] + epithet_form_strs + [rus_str]))
+    shape_grammemes, not_meaningful_grammemes = get_shape_and_not_meaningful_grammemes(str(form_tag))
+    all_not_meaningfull_in_lexems.update(not_meaningful_grammemes.split(', '))
+    shape_str = (35 - len(shape_grammemes)) * ' ' + shape_grammemes
+    if not not_meaningful_grammemes:
+        not_meaningful_grammemes = '---'
+    not_meaningful_gr_str = (20 - len(not_meaningful_grammemes)) * ' ' + not_meaningful_grammemes
 
+    rus_str = get_rus_str_from_tag_str(form_tag_str)
+    print(' | '.join([form_tag_str] + epithet_form_strs + [shape_str, not_meaningful_gr_str, rus_str]))
+print(all_not_meaningfull_in_lexems)
 # из распечатываемой таблицы видно, что эпитеты "безумный" и "безумен" принимают одни и те же формы (морфируются друг в
 # друга, краткое прилагательное переходит в исходную форму, если существует). Поэтому "безумен"
 # как отдельный эпитет убираем.
