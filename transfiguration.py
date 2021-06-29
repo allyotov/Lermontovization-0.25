@@ -1,5 +1,6 @@
 from preprod_research.tag_id_dict import shaping_grammemes, redundant_grammemes, pos_of_interest
 import pymorphy2
+import re
 
 MORPH = pymorphy2.MorphAnalyzer()
 INSANE = MORPH.parse('безумный')[0]
@@ -7,9 +8,11 @@ UNWORLDY = MORPH.parse('неземной')[0]
 UNEARTHLY = MORPH.parse('неотмирен')[0]  # Вспомогательный эпитет, используемый в качестве краткой формы второго эпитета
 EPITHETS = [INSANE, UNWORLDY]
 
-'''
-TODO: предусмотреть в коде, что pymorphy может вернуть не единственный вариант разбора слова:
+# регулярка для поиска слов
+WORD_RE_COMPILED = re.compile(r'\w+')
 
+# TODO: предусмотреть в коде, что pymorphy может вернуть не единственный вариант разбора слова:
+'''
 pymorphy2 возвращает все допустимые варианты разбора, но на практике обычно нужен только один вариант, правильный.
 
 У каждого разбора есть параметр score:
@@ -20,16 +23,22 @@ pymorphy2 возвращает все допустимые варианты ра
  Parse(word='на', tag=OpencorporaTag('PRCL'), normal_form='на', score=5.3e-05, methods_stack=((<DictionaryAnalyzer>, 'на', 21, 0),))]
 '''
 
+#TODO: предусмотреть работу с наречиями Parse(word='чисто', tag=OpencorporaTag('ADVB')
+
 
 def transfigurate_given_word(word, epithet_num=0):
-    p = MORPH.parse(word)[0]
-    print(word)
-    tag_str = str(p.tag)
-    print(tag_str)
+    print('---' * 30)
 
-    if p.tag.POS not in pos_of_interest:
+    word_parse = MORPH.parse(word)
+    for p in word_parse:
+        if p.tag.POS in pos_of_interest:
+            tag_str = str(p.tag)
+            break
+    else:
+        print(word)
         print('Часть речи преобразуемого слова должна быть "прилагательное" или  "краткое прилагательное"')
         return None
+
 
     tag_str = tag_str.replace(',', ' ')
     grammemes = tag_str.split()
@@ -62,4 +71,25 @@ def transfigurate_given_word(word, epithet_num=0):
     return epithet.inflect(target_form_grammemes).word
 
 
-print(transfigurate_given_word('мокрей'))
+def process_text_line(line, epithet_n=0):
+    resulting_line = line
+    words_of_line = WORD_RE_COMPILED.findall(line)
+    for word in words_of_line:
+        transfigurated_word = transfigurate_given_word(word, epithet_num=epithet_n)
+        if transfigurated_word is not None:
+            resulting_line = resulting_line.replace(word, transfigurated_word, 1)
+            epithet_n = 1 - epithet_n
+    return resulting_line, epithet_n
+
+
+def process_text_file(source_text_file_path):
+    epithet_n = 0
+    source_text_file_path = ('bianki.txt')
+    transfigurated_lines = []
+    with open(source_text_file_path, 'r') as source_text_file:
+        for i, line in enumerate(source_text_file.readlines()):
+            transfigurated_line, epithet_n = process_text_line(line, epithet_n)
+            transfigurated_lines.append(transfigurated_line)
+    return '\n'.join(transfigurated_lines)
+
+print(process_text_line('День немыслимо прекрасен, небо чисто и светло', 0))
