@@ -1,0 +1,91 @@
+ADJF,Subx,Qual inan,masc,sing,accs |     безумный |        --- |            ---
+     ADJF,Subx,Qual masc,sing,gent |    безумного |        --- |            ---
+
+     ADJF,Subx,Qual masc,sing,ablt |     безумным |        --- |            ---
+ADJF,Subx,Qual anim,masc,sing,accs |    безумного |        --- |            ---
+
+     ADJF,Subx,Qual masc,sing,datv |    безумному |        --- |            ---
+     ADJF,Subx,Qual neut,sing,datv |    безумному |        --- |            ---
+     ADJF,Subx,Qual neut,sing,gent |    безумного |        --- |            ---
+
+
+
+     ADJF,Subx,Qual anim,plur,accs |     безумных |        --- |            ---
+
+
+
+
+
+     ADJF,Subx,Qual femn,sing,nomn |     безумная |        --- |            ---
+     ADJF,Subx,Qual femn,sing,datv |     безумной |        --- |            ---
+     ADJF,Subx,Qual femn,sing,gent |     безумной |        --- |            ---
+
+     ADJF,Subx,Qual femn,sing,loct |     безумной |        --- |            ---
+     ADJF,Subx,Qual femn,sing,accs |     безумную |        --- |            ---
+     ADJF,Subx,Qual femn,sing,ablt |     безумной |        --- |            ---
+ADJF,Subx,Qual femn,sing,ablt,V-oy |     безумною |        --- |            ---
+
+
+
+
+
+     ADJF,Subx,Qual inan,plur,accs |     безумные |        --- |            ---
+
+
+
+
+     ADJF,Subx,Qual masc,sing,loct |     безумном |        --- |            ---
+     ADJF,Subx,Qual masc,sing,nomn |     безумный |        --- |            ---
+     ADJF,Subx,Qual neut,sing,ablt |     безумным |        --- |            ---
+     ADJF,Subx,Qual neut,sing,accs |     безумное |        --- |            ---
+
+
+     ADJF,Subx,Qual neut,sing,loct |     безумном |        --- |            ---
+     ADJF,Subx,Qual neut,sing,nomn |     безумное |        --- |            ---
+          ADJF,Subx,Qual plur,ablt |    безумными |        --- |            ---
+          ADJF,Subx,Qual plur,datv |     безумным |        --- |            ---
+          ADJF,Subx,Qual plur,gent |     безумных |        --- |            ---
+          ADJF,Subx,Qual plur,loct |     безумных |        --- |            ---
+          ADJF,Subx,Qual plur,nomn |     безумные |        --- |            ---
+ADJF,Supr,Qual anim,masc,sing,accs | безумнейшего |        --- | неотмирнейшего
+     ADJF,Supr,Qual anim,plur,accs |  безумнейших |        --- |  неотмирнейших
+     ADJF,Supr,Qual femn,sing,ablt |  безумнейшей |        --- |  неотмирнейшей
+ADJF,Supr,Qual femn,sing,ablt,V-ey |  безумнейшею |        --- |  неотмирнейшею
+     ADJF,Supr,Qual femn,sing,accs |  безумнейшую |        --- |  неотмирнейшую
+     ADJF,Supr,Qual femn,sing,datv |  безумнейшей |        --- |  неотмирнейшей
+     ADJF,Supr,Qual femn,sing,gent |  безумнейшей |        --- |  неотмирнейшей
+     ADJF,Supr,Qual femn,sing,loct |  безумнейшей |        --- |  неотмирнейшей
+     ADJF,Supr,Qual femn,sing,nomn |  безумнейшая |        --- |  неотмирнейшая
+ADJF,Supr,Qual inan,masc,sing,accs |  безумнейший |        --- |  неотмирнейший
+     ADJF,Supr,Qual inan,plur,accs |  безумнейшие |        --- |  неотмирнейшие
+     ADJF,Supr,Qual masc,sing,ablt |  безумнейшим |        --- |  неотмирнейшим
+     ADJF,Supr,Qual masc,sing,datv | безумнейшему |        --- | неотмирнейшему
+     ADJF,Supr,Qual masc,sing,gent | безумнейшего |        --- | неотмирнейшего
+     ADJF,Supr,Qual masc,sing,loct |  безумнейшем |        --- |  неотмирнейшем
+     ADJF,Supr,Qual masc,sing,nomn |  безумнейший |        --- |  неотмирнейший
+     ADJF,Supr,Qual neut,sing,ablt |  безумнейшим |        --- |  неотмирнейшим
+     ADJF,Supr,Qual neut,sing,accs |  безумнейшее |        --- |  неотмирнейшее
+     ADJF,Supr,Qual neut,sing,datv | безумнейшему |        --- | неотмирнейшему
+     ADJF,Supr,Qual neut,sing,gent | безумнейшего |        --- | неотмирнейшего
+     ADJF,Supr,Qual neut,sing,loct |  безумнейшем |        --- |  неотмирнейшем
+     ADJF,Supr,Qual neut,sing,nomn |  безумнейшее |        --- |  неотмирнейшее
+          ADJF,Supr,Qual plur,ablt | безумнейшими |        --- | неотмирнейшими
+          ADJF,Supr,Qual plur,datv |  безумнейшим |        --- |  неотмирнейшим
+          ADJF,Supr,Qual plur,gent |  безумнейших |        --- |  неотмирнейших
+          ADJF,Supr,Qual plur,loct |  безумнейших |        --- |  неотмирнейших
+          ADJF,Supr,Qual plur,nomn |  безумнейшие |        --- |  неотмирнейшие
+
+               ADJS,Qual femn,sing |      безумна |        --- |      неотмирна
+               ADJS,Qual masc,sing |      безумен |        --- |      неотмирен
+               ADJS,Qual neut,sing |      безумно |        --- |      неотмирно
+                    ADJS,Qual plur |      безумны |        --- |      неотмирны
+
+
+                              COMP |          --- |   неземнее |            ---
+                         COMP Cmp2 |          --- | понеземнее |            ---
+                    COMP Cmp2,V-ej |          --- | понеземней |            ---
+                         COMP,Qual |     безумнее |        --- |     неотмирнее
+                    COMP,Qual Cmp2 |   побезумнее |        --- |   неотпомирнее
+               COMP,Qual Cmp2,V-ej |   побезумней |        --- |   неотпомирней
+                    COMP,Qual V-ej |     безумней |        --- |     неотмирней
+                         COMP V-ej |          --- |   неземней |            ---

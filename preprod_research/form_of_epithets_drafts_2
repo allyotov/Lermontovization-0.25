@@ -1,0 +1,32 @@
+          ADJF,Qual masc,sing,nomn |          --- |        --- |     неотмирный
+          ADJF,Qual masc,sing,ablt |          --- |        --- |     неотмирным
+          ADJF,Qual masc,sing,datv |          --- |        --- |    неотмирному
+          ADJF,Qual masc,sing,gent |          --- |        --- |    неотмирного
+          ADJF,Qual masc,sing,loct |          --- |        --- |     неотмирном
+     ADJF,Qual anim,masc,sing,accs |          --- |        --- |    неотмирного
+
+
+          ADJF,Qual femn,sing,ablt |          --- |        --- |     неотмирной
+     ADJF,Qual femn,sing,ablt,V-oy |          --- |        --- |     неотмирною
+          ADJF,Qual femn,sing,accs |          --- |        --- |     неотмирную
+          ADJF,Qual femn,sing,datv |          --- |        --- |     неотмирной
+          ADJF,Qual femn,sing,gent |          --- |        --- |     неотмирной
+          ADJF,Qual femn,sing,loct |          --- |        --- |     неотмирной
+          ADJF,Qual femn,sing,nomn |          --- |        --- |     неотмирная
+     ADJF,Qual inan,masc,sing,accs |          --- |        --- |     неотмирный
+
+
+          ADJF,Qual neut,sing,ablt |          --- |        --- |     неотмирным
+          ADJF,Qual neut,sing,accs |          --- |        --- |     неотмирное
+          ADJF,Qual neut,sing,datv |          --- |        --- |    неотмирному
+          ADJF,Qual neut,sing,gent |          --- |        --- |    неотмирного
+          ADJF,Qual neut,sing,loct |          --- |        --- |     неотмирном
+          ADJF,Qual neut,sing,nomn |          --- |        --- |     неотмирное
+
+               ADJF,Qual plur,ablt |          --- |        --- |    неотмирными
+               ADJF,Qual plur,datv |          --- |        --- |     неотмирным
+               ADJF,Qual plur,gent |          --- |        --- |     неотмирных
+               ADJF,Qual plur,loct |          --- |        --- |     неотмирных
+               ADJF,Qual plur,nomn |          --- |        --- |     неотмирные
+          ADJF,Qual inan,plur,accs |          --- |        --- |     неотмирные
+          ADJF,Qual anim,plur,accs |          --- |        --- |     неотмирных
