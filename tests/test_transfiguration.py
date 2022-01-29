@@ -1,5 +1,5 @@
 import unittest
-import transfiguration as t
+import lermontovization.transfiguration as t
 
 
 class TestWordTransfiguration(unittest.TestCase):
