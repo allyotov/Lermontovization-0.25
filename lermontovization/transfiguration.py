@@ -1,5 +1,15 @@
-from preprod_research.tag_id_dict import shaping_grammemes, redundant_grammemes, pos_of_interest
+import logging
+import sys
 import pymorphy2
+from preprod_research.tag_id_dict import shaping_grammemes, redundant_grammemes, pos_of_interest
+
+
+logger = logging.getLogger(__name__)
+logger.debug(sys.executable)
+
+
+logger = logging.getLogger(__name__)
+
 import re
 
 MORPH = pymorphy2.MorphAnalyzer()
