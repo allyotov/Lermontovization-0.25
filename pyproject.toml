@@ -6,6 +6,8 @@ authors = ["Alexander Lyotov <sippie84@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
+corpy = "^0.4.1"
+pymorphy2 = "^0.9.1"
 
 [tool.poetry.dev-dependencies]
 
