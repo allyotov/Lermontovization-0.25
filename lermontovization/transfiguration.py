@@ -1,6 +1,8 @@
 import logging
+import os
 import sys
 import pymorphy2
+from corpy.udpipe import Model
 from preprod_research.tag_id_dict import shaping_grammemes, redundant_grammemes, pos_of_interest
 
 
@@ -11,6 +13,9 @@ logger.debug(sys.executable)
 logger = logging.getLogger(__name__)
 
 import re
+
+model_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'preprod_research/russian-syntagrus-ud-2.4-190531.udpipe'))
+m = Model(model_path)
 
 MORPH = pymorphy2.MorphAnalyzer()
 INSANE = MORPH.parse('безумный')[0]
@@ -103,3 +108,5 @@ def process_text_file(source_text_file_path):
     return '\n'.join(transfigurated_lines)
 
 print(process_text_line('День немыслимо прекрасен, небо чисто и светло', 0))
+sents = list(m.process("День немыслимо прекрасен, небо чисто и светло. Очерк жизни кратк и ясен: правда побеждает зло."))
+print(sents)
