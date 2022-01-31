@@ -55,7 +55,7 @@ def transfigurate_given_word(word, udpipe_word_tag, epithet_num=0):
             unexplored_grammemes.append(grammem)
 
     logger.debug('Граммемы: ')
-    logger.debug('Формы: %;' % ', '.join(target_form_grammemes))
+    logger.debug('Формы: %s;' % ', '.join(target_form_grammemes))
     if word_redundant_grammemes:
         logger.debug('Не влияющие на форму: %s;' % ', '.join(word_redundant_grammemes))
     if unexplored_grammemes:

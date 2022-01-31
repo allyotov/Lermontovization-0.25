@@ -9,6 +9,8 @@ python = "^3.9"
 corpy = "^0.4.1"
 pymorphy2 = "^0.9.1"
 ipython = "^8.0.1"
+PySocks = "^1.7.1"
+python-telegram-bot = {extras = ["socks"], version = "^13.10"}
 
 [tool.poetry.dev-dependencies]
 
