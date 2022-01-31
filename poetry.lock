@@ -490,6 +490,7 @@ python-versions = ">=3.6"
 APScheduler = "3.6.3"
 cachetools = "4.2.2"
 certifi = "*"
+PySocks = {version = "*", optional = true, markers = "extra == \"socks\""}
 pytz = ">=2018.6"
 tornado = ">=6.1"
 
@@ -664,7 +665,7 @@ pillow = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "38ff6c9fcf4515072b1a5d367c248c3abcc814c996207c2cdb67316c5f521d1e"
+content-hash = "07719812210a8f706bc4186eff2da7c6b0c769613b55e737f1b3404fd373a70c"
 
 [metadata.files]
 appnope = [
