@@ -1,59 +1,44 @@
 import logging
 import os
-import sys
 import pymorphy2
 from corpy.udpipe import Model
 from preprod_research.tag_id_dict import shaping_grammemes, redundant_grammemes, pos_of_interest
 
-
-logger = logging.getLogger(__name__)
-logger.debug(sys.executable)
-
-
-logger = logging.getLogger(__name__)
-
-import re
-
-model_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'preprod_research/russian-syntagrus-ud-2.4-190531.udpipe'))
-m = Model(model_path)
 
 MORPH = pymorphy2.MorphAnalyzer()
 INSANE = MORPH.parse('безумный')[0]
 UNWORLDY = MORPH.parse('неземной')[0]
 UNEARTHLY = MORPH.parse('неотмирен')[0]  # Вспомогательный эпитет, используемый в качестве краткой формы второго эпитета
 EPITHETS = [INSANE, UNWORLDY]
+POETIC_FORMS = {'кратк': 'краток'}
+UDPIPE_MODEL = 'preprod_research/russian-syntagrus-ud-2.4-190531.udpipe'
+DEFAULT_TEXT_SAMPLE = 'source_text_sample.txt'
 
-# регулярка для поиска слов
-WORD_RE_COMPILED = re.compile(r'\w+')
+logger = logging.getLogger(__name__)
 
-# TODO: предусмотреть в коде, что pymorphy может вернуть не единственный вариант разбора слова:
-'''
-pymorphy2 возвращает все допустимые варианты разбора, но на практике обычно нужен только один вариант, правильный.
-
-У каждого разбора есть параметр score:
-
->>> morph.parse('на')
-[Parse(word='на', tag=OpencorporaTag('PREP'), normal_form='на', score=0.999628, methods_stack=((<DictionaryAnalyzer>, 'на', 23, 0),)),
- Parse(word='на', tag=OpencorporaTag('INTJ'), normal_form='на', score=0.000318, methods_stack=((<DictionaryAnalyzer>, 'на', 20, 0),)),
- Parse(word='на', tag=OpencorporaTag('PRCL'), normal_form='на', score=5.3e-05, methods_stack=((<DictionaryAnalyzer>, 'на', 21, 0),))]
-'''
-
-#TODO: предусмотреть работу с наречиями Parse(word='чисто', tag=OpencorporaTag('ADVB')
+model_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', UDPIPE_MODEL))
+input_text_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 
+                                  '..', 
+                                  DEFAULT_TEXT_SAMPLE))
+m = Model(model_path)
 
 
-def transfigurate_given_word(word, epithet_num=0):
-    print('---' * 30)
+def transfigurate_given_word(word, udpipe_word_tag, epithet_num=0):
+    if word in POETIC_FORMS.keys():
+        word = POETIC_FORMS[word]
 
     word_parse = MORPH.parse(word)
+    if len(word_parse) > 1 and udpipe_word_tag != 'ADJ':
+        return None, None
+
     for p in word_parse:
         if p.tag.POS in pos_of_interest:
             tag_str = str(p.tag)
             break
     else:
-        print(word)
-        print('Часть речи преобразуемого слова должна быть "прилагательное" или  "краткое прилагательное"')
-        return None
-
+        logger.debug(word)
+        logger.debug('Часть речи преобразуемого слова должна быть "прилагательное" или  "краткое прилагательное"')
+        return None, None
 
     tag_str = tag_str.replace(',', ' ')
     grammemes = tag_str.split()
@@ -69,13 +54,13 @@ def transfigurate_given_word(word, epithet_num=0):
         else:
             unexplored_grammemes.append(grammem)
 
-    print('Граммемы: ')
-    print('Формы: {};'.format(', '.join(target_form_grammemes)))
+    logger.debug('Граммемы: ')
+    logger.debug('Формы: %;' % ', '.join(target_form_grammemes))
     if word_redundant_grammemes:
-        print('Не влияющие на форму: {};'.format(', '.join(word_redundant_grammemes)))
+        logger.debug('Не влияющие на форму: %s;' % ', '.join(word_redundant_grammemes))
     if unexplored_grammemes:
-        print('Внимание, слову соответствуют следующие неисследованные автором программы лексеммы:')
-        print(', '.join(unexplored_grammemes))
+        logger.debug('Внимание, слову соответствуют следующие неисследованные автором программы лексеммы:')
+        logger.debug(', '.join(unexplored_grammemes))
 
     target_form_grammemes = set(target_form_grammemes)
 
@@ -83,30 +68,53 @@ def transfigurate_given_word(word, epithet_num=0):
     if p.tag.POS == 'ADJS' and epithet_num == 1:
         epithet = UNEARTHLY
 
-    return epithet.inflect(target_form_grammemes).word
-
-
-def process_text_line(line, epithet_n=0):
-    resulting_line = line
-    words_of_line = WORD_RE_COMPILED.findall(line)
-    for word in words_of_line:
-        transfigurated_word = transfigurate_given_word(word, epithet_num=epithet_n)
-        if transfigurated_word is not None:
-            resulting_line = resulting_line.replace(word, transfigurated_word, 1)
-            epithet_n = 1 - epithet_n
-    return resulting_line, epithet_n
+    return (epithet, epithet.inflect(target_form_grammemes).word)
 
 
 def process_text_file(source_text_file_path):
-    epithet_n = 0
-    source_text_file_path = ('bianki.txt')
-    transfigurated_lines = []
     with open(source_text_file_path, 'r') as source_text_file:
-        for i, line in enumerate(source_text_file.readlines()):
-            transfigurated_line, epithet_n = process_text_line(line, epithet_n)
-            transfigurated_lines.append(transfigurated_line)
-    return '\n'.join(transfigurated_lines)
+        lines = source_text_file.readlines()
+    text_from_file = '\n'.join(lines)
 
-print(process_text_line('День немыслимо прекрасен, небо чисто и светло', 0))
-sents = list(m.process("День немыслимо прекрасен, небо чисто и светло. Очерк жизни кратк и ясен: правда побеждает зло."))
-print(sents)
+    return process_text(text_from_file)
+
+
+def process_text(text_str):
+    epithet_n = 0
+    sents = list(m.process(text_str))
+    result_text = ''
+    for sent in sents:
+        for word in sent.words:
+            if word.id == 0:
+                continue
+
+            all_upper = False
+            capitalized = False
+            if word.form.isupper():
+                all_upper = True
+            else:
+                if word.form[0].isupper():
+                    capitalized = True
+
+            epithet, new_word = transfigurate_given_word(word.form, 
+                                                         word.upostag, 
+                                                         epithet_num=epithet_n)
+            if new_word:
+                if all_upper:
+                    new_word = new_word.upper()
+                elif capitalized:
+                    new_word = new_word.capitalize()
+
+                epithet_n = 1 - epithet_n
+                result_text += new_word
+            else:
+                result_text += word.form
+
+            if hasattr(word, 'misc'):
+                if word.misc == 'SpaceAfter=No':
+                    result_text += ''
+                else:
+                    result_text += ' '
+            else:
+                result_text += ' '
+    return result_text
