@@ -12,5 +12,3 @@ COPY bot /lermontovization/bot/
 COPY lermontovization /lermontovization/lermontovization/
 
 COPY preprod_research /lermontovization/preprod_research/
-
-CMD ["python", "-m", "bot"]
