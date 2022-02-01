@@ -665,7 +665,7 @@ pillow = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "07719812210a8f706bc4186eff2da7c6b0c769613b55e737f1b3404fd373a70c"
+content-hash = "efa81896f27cf40c48d25912e924e7fbcafe22d06df3d90113b4a70594799745"
 
 [metadata.files]
 appnope = [

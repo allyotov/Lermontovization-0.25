@@ -1,11 +1,11 @@
-FROM python:3.9.7-slim-bullseye
+FROM python:3.9.7-bullseye
 
 WORKDIR /lermontovization
 
 COPY pyproject.toml poetry.lock /lermontovization/
 
-RUN pip install "poetry==1.1.0" && \
- poetry config virtualenvs.create false && poetry install
+RUN pip install --upgrade pip && \
+    pip install "poetry==1.1.0" && poetry config virtualenvs.create false && poetry install
 
 COPY bot /lermontovization/bot/
 
