@@ -15,11 +15,12 @@ def hello(update, context):
 
 
 def lermontovizate(update, context):
+    chat_id = update.message.chat_id
     try:
         if update.message.text:
             lermontovizated_text = process_text(update.message.text)
-            update.message.reply_text(text='Лермонтовизированный вариант этого текста:')
-            update.message.reply_text(text=lermontovizated_text)
+            update.message.bot.send_message(chat_id, text='Лермонтовизированный вариант этого текста:')
+            update.message.bot.send_message(chat_id, text=lermontovizated_text)
         else:
             update.message.reply_text(
                 'Граждане! Вы не задали инетересующий вас текст!',
